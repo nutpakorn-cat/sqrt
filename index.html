@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript" src="assets/jquery.js"></script>
+        <script type="text/javascript" src="assets/main.js"></script>   
+        <script type="text/javascript" src="assets/toastr.js"></script>   
+        <title>SQRT</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="assets/main.css">
+        <link rel="stylesheet" href="assets/fonts.css">
+        <link rel="stylesheet" href="assets/toastr.css">
+        <script>
+
+        </script>
+    </head>
+    <body>
+        <div class="well navbar-fixed-top">
+            <h2 class="text-center">SQRT</h2>
+        </div>
+        <div class="container">
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <h1 class="text-center">SQRT</h1>
+            <input type="text" class="form-control" placeholder="ตัวเลข" id="inp">
+            <p></p>
+            <button class="btn btn-success btn-block" onclick="get_result()"><pbtn>หาผลลัพธ์</pbtn></button>
+            <hr>
+            <p id="result">ผลลัพธ์ ................</p>
+        </div>
+        <div class="well navbar-fixed-bottom"></div>
+        <script>
+		function explode(delimiter, string, limit) {
+  //  discuss at: http://phpjs.org/functions/explode/
+  // original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+  //   example 1: explode(' ', 'Kevin van Zonneveld');
+  //   returns 1: {0: 'Kevin', 1: 'van', 2: 'Zonneveld'}
+
+  if (arguments.length < 2 || typeof delimiter === 'undefined' || typeof string === 'undefined') return null;
+  if (delimiter === '' || delimiter === false || delimiter === null) return false;
+  if (typeof delimiter === 'function' || typeof delimiter === 'object' || typeof string === 'function' || typeof string ===
+    'object') {
+    return {
+      0: ''
+    };
+  }
+  if (delimiter === true) delimiter = '1';
+
+  // Here we go...
+  delimiter += '';
+  string += '';
+
+  var s = string.split(delimiter);
+
+  if (typeof limit === 'undefined') return s;
+
+  // Support for limit
+  if (limit === 0) limit = 1;
+
+  // Positive limit
+  if (limit > 0) {
+    if (limit >= s.length) return s;
+    return s.slice(0, limit - 1)
+      .concat([s.slice(limit - 1)
+        .join(delimiter)
+      ]);
+  }
+
+  // Negative limit
+  if (-limit >= s.length) return [];
+
+  s.splice(s.length + limit);
+  return s;
+}
+
+            function get_result()
+            {
+                setresult();
+                var isprime = 0;
+				var r1 = 0;
+				var r2 = 0;
+                var scx = document.getElementById('inp').value;
+                var num = parseInt(scx);
+                if(!num)
+                    {
+                        writeresult("กรุณาป้อนข้อมูลให้ครบ");
+                    } else {
+                    if(num <= 1)
+                    {
+                        writeresult("ต้องมากกว่า 1");
+                    } else {
+                    if(num >= 200000000)
+                    {
+                        writeresult("ห้ามใส่เกิน 200 ล้าน");
+                    }
+                    else
+                    {
+						
+                        var i = 2;
+                        var many = 0;
+                        var max = num;
+                        
+                        while(i !== max)
+                        {
+                            if(num % i !== 0)
+                            {
+                                i++;
+                            }
+                            else
+                            {
+                                var i2 = 1;
+                                var tt = 0;
+                                var m = num;
+                                while(i2 !== m)
+                                {
+                                    if(i * i2 === num)
+                                    {
+                                        tt = i2;
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        i2++;
+                                    }
+                                }
+								var mystr = "" + Math.sqrt(i);
+								var myarr = explode(".", mystr);
+								if(myarr.length === 1) 
+								{
+									r1 = Math.sqrt(i);
+									r2 = tt;
+									writeresult("[ผลลัพธ์]ตัวเลข " + num + " ทำให้เป็นรูปอย่างง่ายคือ " + Math.sqrt(i) + "_/" + tt);
+									isprime = 1;
+								}
+                                i++;
+                            }
+                        } } }
+                    }
+                    if(isprime !== 0)
+                    {
+                        toastr.success('จำนวน ' + num + ' = ' + r1 + "_/" + r2);
+                    }
+                    else
+                    {
+                        finalwrite("[ผลลัพธ์]จำนวน " + num + " ไม่สามารถหาค่าได้ กรุณาตรวจค่า DEBUG<br>[DEBUG]" + Math.sqrt(num));
+                        toastr.error('จำนวน ' + num + ' ไม่สามารถหาค่าได้');
+                    }
+            }
+            function writeresult(txt)
+            {
+                var ob = document.getElementById("result");
+                ob.innerHTML += txt + "<br>";
+            }
+            function finalwrite(txt)
+            {
+                var ob = document.getElementById("result");
+                ob.innerHTML += txt + "<br><br>";
+            }
+            function setresult()
+            {
+                document.getElementById("result").innerHTML= "";
+            }
+        </script>
+    </body>
+</html>
